@@ -20,7 +20,74 @@
       <%- include('./common/menu')%>
       <!-- 连接公共内容 -->
       <div class="body">
-        手机管理
+        <form class="form-inline search-bar">
+          <input type="text" class="form-control">
+          <button class="btn btn-primary">搜索</button>
+        </form>
+        <p class="detalist">
+          <a href="#">详情列表</a>
+        </p>
+        <table class="table table-bordered  table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Username</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+        <nav>
+          <ul class="pagination">
+            <li class="disabled">
+              <a href="#" aria-label="Previous">
+                <span aria-hidden="true">«</span>
+              </a>
+            </li>
+            <li class="active">
+              <a href="#">1
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">3</a>
+            </li>
+            <li>
+              <a href="#">4</a>
+            </li>
+            <li>
+              <a href="#">5</a>
+            </li>
+            <li>
+              <a href="#" aria-label="Next">
+                <span aria-hidden="true">»</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
     <!-- 连接公共尾部 -->
