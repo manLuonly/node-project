@@ -1,0 +1,70 @@
+/* 整个项目都能使用的样式 */
+html,body{
+    height: 100%;
+}
+body{
+    background: yellowgreen;
+}
+.container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.lv-head{
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    align-items: center;
+    border-bottom: 1px solid #000;
+    .logo{
+        font-size: 25px;
+        text-decoration: none;
+    }
+    .right{
+        display: flex;
+        align-items: center;
+    }
+}
+
+.lv-menu{
+    width: 250px;
+    height: 100%;
+    overflow-y: auto;
+    border-right: 1px solid yellow;
+    li{
+        height: 50px;
+        line-height: 50px;
+        border-bottom: 1px solid black;
+    }
+}
+
+.lv-main{
+    flex: 1;
+    display: flex;
+    background: white;
+    .body{
+        flex: 1;
+        padding: 0 20px;
+    }
+}
+
+.lv-foot{
+    height: 50px;
+    border-top: 1px solid #000;
+}
+
+.search-bar{
+    margin: 10px 0;
+}
+
+//对bootstrap的样式覆盖
+// 对表格hover颜色的更改
+.table-hover>tbody>tr:hover{
+    background-color: azure;
+}
+
+//对分页的位置更改
+.pagination{
+    float: right;
+}
