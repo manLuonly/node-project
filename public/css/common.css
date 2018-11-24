@@ -5,7 +5,7 @@ html, body {
 }
 
 body {
-  background: yellowgreen;
+  background-color: #edf2f6;
 }
 
 .container {
@@ -19,7 +19,7 @@ body {
   justify-content: space-between;
   height: 50px;
   align-items: center;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid gray;
 }
 .lv-head .logo {
   font-size: 25px;
@@ -27,42 +27,81 @@ body {
 }
 .lv-head .right {
   display: flex;
-  align-items: center;
+  justify-content: flex-end;
+}
+.lv-head .right p {
+  margin: 0 10px;
+  line-height: 30px;
 }
 
 .lv-menu {
   width: 250px;
   height: 100%;
   overflow-y: auto;
-  border-right: 1px solid yellow;
+  border: 1px solid gray;
 }
 .lv-menu li {
-  height: 50px;
-  line-height: 50px;
+  height: 100px;
+  line-height: 100px;
   border-bottom: 1px solid black;
+  background: #e4e9ed;
+}
+.lv-menu li a {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: #040301;
+}
+.lv-menu li a:hover {
+  color: white;
+}
+.lv-menu li img {
+  width: 30px;
+  height: 30px;
+  margin: -10px 5px;
 }
 
 .lv-main {
   flex: 1;
   display: flex;
-  background: white;
+  background: #edf2f6;
 }
 .lv-main .body {
   flex: 1;
   padding: 0 20px;
+  border-right: 1px solid gray;
+}
+.lv-main .body .form-inline {
+  display: flex;
+  justify-content: flex-end;
+}
+.lv-main .body .form-inline .form-control {
+  margin: 0 10px;
 }
 
 .lv-foot {
   height: 50px;
-  border-top: 1px solid #000;
+  border-top: 1px solid gray;
 }
 
 .search-bar {
   margin: 10px 0;
 }
 
+.detalist {
+  width: 849px;
+  height: 40px;
+  line-height: 40px;
+  background: #8a90e4;
+}
+.detalist a {
+  margin-left: 20px;
+  color: white;
+  text-decoration: none;
+}
+
 .table-hover > tbody > tr:hover {
-  background-color: azure;
+  background: gold;
 }
 
 .pagination {
