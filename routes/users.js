@@ -1,46 +1,70 @@
 var express = require('express');
 var MongoClient = require('mongodb').MongoClient;
-<!-- 根据id删除 -->
-var Objectid = require('mongodb').Objectid; 
+var ObjectId = require('mongodb').ObjectId;  <!-- 根据id删除 -->
 var async = require('async');
 var router = express.Router();
 
 var url = 'mongodb://127.0.0.1:27017';
-
+<!-- 分页操作 -->
 router.get('/',function(req,res,next){
-<!-- 连接数据库 -->
-  MongoClient.connect(url,{ useNewUrlParser: true },function(err,client) {
+  var page = parseInt(req.query.page) || 1; <!-- 页码(当前页码,默认第一页) -->
+  var pageSize = parseInt(req.query.pageSize) || 5; <!--  每页显示的条数 -->
+  var totalSize = 0; <!-- 总条数 -->
+  
+MongoClient.connect(url, { useNewUrlParser: true },function(err,client){
+  if(err){
+    res.render('error',{
+      message:'连接失败',
+      error:err
+    });
+    return;
+  }
+
+  var db = client.db('register');
+
+  async.series([
+    function(cb){
+      db.collection('usertable').find().count(function(err,num){
+        if(err){
+          cb(err)
+        }else{
+          tatalSize = num;
+          cb(null);
+        }
+      })
+    },
+    function(cb){
+      db.collection('usertable').find().limit(pageSize).skip(page * pageSize - pageSize).toArray(function(err,data){
+        if(err){
+          cb(err)
+        }else{
+          cb(null,data)
+        }
+      })
+    }  
+  ],function(err,results){
     if(err){
-      console.log('数据库连接失败',err)
-      res.render('error',{
-        message:'数据库连接失败',
-        error:err
-      });
-      return;
+     res.render('error',{
+       message:'错误',
+       error:err
+     })
+    }else{
+      var totalPage = Math.ceil(totalSize / pageSize);   <!-- 总页数  -->
+      <!-- 传回前端的参数 -->
+      res.render('users',{
+        list:results[1],
+        totalPage:totalPage,
+        pageSize:pageSize,
+        currentPage:page
+      })
     }
-    var db = client.db('register');
-
-    db.collection('usertable').find().toArray(function(err,data){
-      if(err){
-        console.log('查询用户失败',err);
-
-        res.render('error',{
-          message:'查询失败',
-          error:err
-        })
-      }else{
-        console.log(data)
-        res.render('users',{
-          list:data
-        })
-      }
-
-      client.close();
-    })
   })
 })
 
+})
 
+
+<!-- 登录操作 -->
 router.post('/login', function(req, res) {
    <!-- 获取前端传递过来的参数 -->
   var username = req.body.name;
@@ -106,5 +130,97 @@ router.post('/login', function(req, res) {
 
   })
 });
+
+<!-- 注册操作 -->
+router.post('/register',function(req,res){
+  var name = req.body.name;
+  var pwd = req.body.pwd;
+  var nickname = req.body.nickname;
+  var age = parseInt(req.body.age);
+  var sex = req.body.sex;
+  var isAdmin = req.body.isAdmin === '是' ? true : false;
+
+  MongoClient.connect(url, {useNewUrlParser: true}, function(err, client) {
+    if (err) {
+      res.render('error', {
+        message: '链接失败',
+        error: err
+      })
+      return;
+    }
+
+    var db = client.db('register');
+
+    async.series([
+      function(cb){
+        db.collection('usertable').find({username:name}).count(function(err,num){
+          if(err){
+            cb(err)
+          }else if(num > 0){
+            cb(new Error('注册过了'));
+          }else{
+            cb(null)
+          }
+        })
+      },
+      function(cb){
+        db.collection('usertable').insertOne({
+          username: name,
+          password: pwd,
+          nickname: nickname,
+          age: age,
+          sex: sex,
+          isAdmin: isAdmin
+        },function(err){
+          if(err){
+            cb(err)
+          }else{
+            cb(null)
+          }
+        })
+      }
+    ],function(err,result){
+      if(err){
+        res.render('error',{
+          massage:'错误',
+          error:err
+        })
+      }else{
+        res.redirect('/login.html')
+      }
+      client.close();
+    })
+  })
+})
+
+<!-- 删除操作 -->
+router.get('/delete', function(req, res){
+  var id = req.query.id;
+
+  MongoClient.connect(url, {useNewUrlParser: true}, function(err, client) {
+    if (err) {
+      res.render('error', {
+        message: '链接失败',
+        error: err
+      })
+      return;
+    }
+    var db = client.db('register');
+    db.collection('usertable').deleteOne({
+      _id: ObjectId(id)
+    }, function(err, data) {
+      console.log(data);
+      if (err) {
+        res.render('error', {
+          message: '删除失败',
+          error: err
+        })
+      } else {
+        res.redirect('/users');
+      }
+      client.close();
+    })
+  })
+})
 
 module.exports = router;

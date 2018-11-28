@@ -59,64 +59,31 @@
                                         <td>
                                             <%= list[i].isAdmin %>
                                         </td>
+                                        <td>
+                                            <% if(!list[i].isAdmin){%>
+                                                <a href="/users/delete?id=<%= list[i]._id %>">删除</a>
+                                                <%}%>
+                                        </td>
+
                                     </tr>
                                     <%}%>
-
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
-
-
                             </tbody>
                         </table>
                         <nav>
                             <ul class="pagination">
                                 <li class="disabled">
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">«</span>
-                                    </a>
+                                    <a href="/users?page=<%= currentPage - 1 < 1 ? 1: currentPage - 1 %>&pageSize=<%= pageSize %>" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                      </a>
                                 </li>
+                                <% for (var i = 0; i < totalPage; i++) {%>
+                                    <li class="<%= currentPage === (i+1) ? 'active': '' %>"><a href="/users?page=<%= i+1 %>&pageSize=<%= pageSize %>"><%= i + 1%></a></li>
+                                  <%}%>
+
                                 <li class="active">
-                                    <a href="#">1
-                                        <span class="sr-only">(current)</span>
-                                    </a>
+                                    <a href="/users?page=<%= currentPage + 1 > totalPage ? totalPage: currentPage + 1 %>&pageSize=<%= pageSize %>" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                      </a>
                                 </li>
                                 <li>
                                     <a href="#">2</a>

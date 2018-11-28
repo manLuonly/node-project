@@ -29,5 +29,9 @@
     border: 0;
     margin: 0 auto;
     color: white; }
+    a{
+      display: block;
+      margin: 83px 0;
+    }
 
 /*# sourceMappingURL=login.css.map */
