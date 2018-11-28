@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
@@ -74,34 +73,20 @@
                                 <li class="disabled">
                                     <a href="/users?page=<%= currentPage - 1 < 1 ? 1: currentPage - 1 %>&pageSize=<%= pageSize %>" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
-                                      </a>
-                                </li>
-                                <% for (var i = 0; i < totalPage; i++) {%>
-                                    <li class="<%= currentPage === (i+1) ? 'active': '' %>"><a href="/users?page=<%= i+1 %>&pageSize=<%= pageSize %>"><%= i + 1%></a></li>
-                                  <%}%>
-
-                                <li class="active">
-                                    <a href="/users?page=<%= currentPage + 1 > totalPage ? totalPage: currentPage + 1 %>&pageSize=<%= pageSize %>" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                      </a>
-                                </li>
-                                <li>
-                                    <a href="#">2</a>
-                                </li>
-                                <li>
-                                    <a href="#">3</a>
-                                </li>
-                                <li>
-                                    <a href="#">4</a>
-                                </li>
-                                <li>
-                                    <a href="#">5</a>
-                                </li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">»</span>
                                     </a>
                                 </li>
+                                <% for (var i = 0; i < totalPage; i++) {%>
+                                    <li class="<%= currentPage === (i+1) ? 'active': '' %>">
+                                        <a href="/users?page=<%= i+1 %>&pageSize=<%= pageSize %>">
+                                            <%= i + 1%>
+                                        </a>
+                                    </li>
+                                    <%}%>
+                                        <li>
+                                            <a href="/users?page=<%= currentPage + 1 > totalPage ? totalPage: currentPage + 1 %>&pageSize=<%= pageSize %>" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
                             </ul>
                         </nav>
                     </div>

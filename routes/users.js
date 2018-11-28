@@ -6,62 +6,66 @@ var router = express.Router();
 
 var url = 'mongodb://127.0.0.1:27017';
 <!-- 分页操作 -->
-router.get('/',function(req,res,next){
-  var page = parseInt(req.query.page) || 1; <!-- 页码(当前页码,默认第一页) -->
-  var pageSize = parseInt(req.query.pageSize) || 5; <!--  每页显示的条数 -->
-  var totalSize = 0; <!-- 总条数 -->
-  
-MongoClient.connect(url, { useNewUrlParser: true },function(err,client){
-  if(err){
-    res.render('error',{
-      message:'连接失败',
-      error:err
-    });
-    return;
-  }
+router.get('/', function(req, res, next) {
+  var page = parseInt(req.query.page) || 1;   <!-- 当前显示页码 -->
+  var pageSize = parseInt(req.query.pageSize) || 5;  <!-- 每页显示的条数 -->
+  var totalSize = 0;   <!-- 总条数 -->
 
-  var db = client.db('register');
-
-  async.series([
-    function(cb){
-      db.collection('usertable').find().count(function(err,num){
-        if(err){
-          cb(err)
-        }else{
-          tatalSize = num;
-          cb(null);
-        }
+  MongoClient.connect(url, { useNewUrlParser: true}, function(err, client) {
+    if (err) {
+      res.render('error', {
+        message: '链接失败',
+        error: err
       })
-    },
-    function(cb){
-      db.collection('usertable').find().limit(pageSize).skip(page * pageSize - pageSize).toArray(function(err,data){
-        if(err){
-          cb(err)
-        }else{
-          cb(null,data)
-        }
-      })
-    }  
-  ],function(err,results){
-    if(err){
-     res.render('error',{
-       message:'错误',
-       error:err
-     })
-    }else{
-      var totalPage = Math.ceil(totalSize / pageSize);   <!-- 总页数  -->
-      <!-- 传回前端的参数 -->
-      res.render('users',{
-        list:results[1],
-        totalPage:totalPage,
-        pageSize:pageSize,
-        currentPage:page
-      })
+      return;
     }
-  })
-})
 
-})
+    var db = client.db('register');
+
+    async.series([
+      function(cb) {
+        db.collection('usertable').find().count(function(err, num) {
+          if (err) {
+            cb(err);
+          } else {
+            totalSize = num;
+            cb(null);
+          }
+        })
+      },
+
+      function(cb) {
+  
+
+        db.collection('usertable').find().limit(pageSize).skip(page * pageSize - pageSize).toArray(function(err, data) {
+          if (err) {
+            cb(err)
+          } else {
+            cb(null, data)
+          }
+        })
+
+      }
+    ], function(err, results) {
+      if (err) {
+        res.render('error', {
+          message: '错误',
+          error: err
+        })
+      } else {
+        var totalPage = Math.ceil(totalSize / pageSize);   <!-- 总页数 -->
+
+        res.render('users', {
+          list: results[1],
+          totalPage: totalPage,
+          pageSize: pageSize,
+          currentPage: page
+        })
+      }
+    })
+  })
+
+});
 
 
 <!-- 登录操作 -->
@@ -138,7 +142,7 @@ router.post('/register',function(req,res){
   var nickname = req.body.nickname;
   var age = parseInt(req.body.age);
   var sex = req.body.sex;
-  var isAdmin = req.body.isAdmin === '是' ? true : false;
+  var isAdmin = req.body.isAdmin === '是' ? true : false;   <!-- 传过来的中文转字符 -->
 
   MongoClient.connect(url, {useNewUrlParser: true}, function(err, client) {
     if (err) {
