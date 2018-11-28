@@ -18,10 +18,28 @@
     font-size: 24px;
     float: left;
     text-align: center; }
-  .bigbox input {
+  .bigbox .userName  {
     width: 250px;
     height: 40px;
-    margin: 30px 25px; }
+    margin: 10px 25px; }
+  .bigbox .userPassword  {
+      width: 250px;
+      height: 40px;
+      margin: 10px 25px; }
+  .bigbox .nickname  {
+      width: 250px;
+      height: 40px;
+      margin: 10px 25px; }  
+  .bigbox .age  {
+      width: 250px;
+      height: 40px;
+      margin: 10px 25px; }
+  .and{
+    margin: 0 13px;
+  }
+  .admin{
+    margin: 0px 80px;
+  }
   .bigbox button {
     display: block;
     width: 250px;
@@ -30,5 +48,9 @@
     border: 0;
     margin: 0 auto;
     color: white; }
+  a{
+    display: block;
+    margin: 10px 0;
+  }
 
 /*# sourceMappingURL=register.css.map */

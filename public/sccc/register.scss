@@ -10,7 +10,7 @@
     font-size: 24px;
     float: right;
     text-align: center;
-    background: rgb(95, 114, 130);
+    background: rgb(225, 234, 241);
     color: gray;
     }
     .register{
@@ -20,11 +20,32 @@
         float: left;
         text-align: center;
     }
-    input{
+    .userName{
+        width: 250px;
+        height: 40px;
+        margin: 30px 25px;
+    }
+    .userPassword{
         width: 250px;
         height: 40px;
         margin: 30px 25px;
         
+    }
+    .nickname{
+        width: 250px;
+        height: 40px;
+        margin: 30px 25px;
+    }
+    .age{
+        width: 250px;
+        height: 40px;
+        margin: 30px 25px;
+    }
+    .admin{
+        margin: 0 80px;
+    }
+    .and{
+        margin: 0 13px;
     }
     button{
         display: block;
@@ -34,6 +55,10 @@
         border: 0;
         margin: 0 auto;
         color: white;
+    }
+    a{
+        display: block;
+        margin: 10px 0;
     }
 }
 

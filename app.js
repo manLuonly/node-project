@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var ignoreRouter = require('./config/ignoreRouter');
 
 
 var indexRouter = require('./routes/index');
@@ -19,6 +20,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+<!-- 中间件,用来判断用户是否登录 -->
+app.use(function(req,res,next){
+  if(ignoreRouter.indexOf(req.url) > -1 ){
+    next();
+    return;
+  }
+
+  var nickname = req.cookies.nickname;
+  if(nickname){
+    next();
+  }else{
+    res.redirect('/login.html');
+  }
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -39,13 +55,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-<!-- 连接数据库 -->
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/one');
-var db = mongoose.connection;
-db.on('error',console.error.bind(console,'connection error:'));
-db.once('open',function(){
-  console.log('连接成功')
-})
+
 
 module.exports = app;
