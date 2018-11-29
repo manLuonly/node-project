@@ -1,1 +1,42 @@
-/* 品牌样式 */
+/* 品牌样式form */
+
+.addbrand{
+    position: absolute;
+    display: none;
+}
+.addbox{
+    width:500px;
+    height: 500px;
+    background: white;
+    border: 1px solid gray;
+}
+
+input{
+    width: 400px;
+    height: 40px;
+    margin: 20px 50px;
+}
+
+#search{
+    width: 400px;
+    height: 40px;
+    margin: 10px 50px;  
+}
+
+.ok{
+    width:150px;
+    height: 50px;
+    background: rgb(22, 155, 213);
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    margin: 40px 60px;
+}
+
+.over{
+    width:150px;
+    height: 50px;
+    background: white;
+    border: 1px solid gray;
+    margin: 40px 0px;
+}

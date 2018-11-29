@@ -108,4 +108,18 @@ body {
   float: right;
 }
 
+.add{
+  position: absolute;
+  left: 331px;
+  width: 140px;
+  height: 40px;
+  background: inherit;
+  background-color: rgba(255, 255, 255, 1);
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(121, 121, 121, 1);
+  border-radius: 5px;
+  margin-top: -5px;
+}
 /*# sourceMappingURL=common.css.map */

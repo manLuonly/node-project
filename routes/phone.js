@@ -2,12 +2,9 @@ var express = require('express');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectId;  <!-- 根据id删除 -->
 var async = require('async');
-var multer = require('multer');
 var router = express.Router();
 
 var url = 'mongodb://127.0.0.1:27017';
-<!-- 设置文件的零时目录 -->
-var upload =multer({ dest:'E/tmp'})
 
 <!-- 分页操作 -->
 router.get('/', function(req, res, next) {
@@ -28,7 +25,7 @@ router.get('/', function(req, res, next) {
   
       async.series([
         function(cb) {
-          db.collection('brand').find().count(function(err, num) {
+          db.collection('phone').find().count(function(err, num) {
             if (err) {
               cb(err);
             } else {
@@ -39,13 +36,16 @@ router.get('/', function(req, res, next) {
         },
   
         function(cb) {
-          db.collection('brand').find().limit(pageSize).skip(page * pageSize - pageSize).toArray(function(err, data) {
+    
+  
+          db.collection('phone').find().limit(pageSize).skip(page * pageSize - pageSize).toArray(function(err, data) {
             if (err) {
               cb(err)
             } else {
               cb(null, data)
             }
           })
+  
         }
       ], function(err, results) {
         if (err) {
@@ -55,7 +55,8 @@ router.get('/', function(req, res, next) {
           })
         } else {
           var totalPage = Math.ceil(totalSize / pageSize);   <!-- 总页数 -->
-          res.render('brand', {
+  
+          res.render('phone', {
             list: results[1],
             totalPage: totalPage,
             pageSize: pageSize,
@@ -66,6 +67,7 @@ router.get('/', function(req, res, next) {
     })
   
   });
+
 
 
 <!-- 删除操作 -->
@@ -81,7 +83,7 @@ router.get('/delete', function(req, res){
         return;
       }
       var db = client.db('register');
-      db.collection('brand').deleteOne({
+      db.collection('phone').deleteOne({
         _id: ObjectId(id)
       }, function(err, data) {
         console.log(data);
@@ -98,38 +100,42 @@ router.get('/delete', function(req, res){
     })
   })
 
+
   <!-- 增加操作 -->
-    router.post('/',function(req,res){
-      var Logo = req.body.Logo;
-      var name = req.body.phonename;
-      MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
+  router.post('/',function(req,res){
+    var name = req.body.phonename;
+    var opstion = req.body.opstion;
+    var money = req.body.money;
+    var twomoney = req.body.twomoney;
+
+    MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
+      if(err){
+        console.log('连接失败',err)
+        res.render('error',{
+          message:'连接失败',
+          error:err
+        })
+        return;
+      }
+
+      var db = client.db('register');
+
+      db.collection('phone').insertOne({
+        phonename:name,
+        money:'¥'+money,
+        twomoney:'¥'+twomoney
+      },function(err,data){
+        console.log(data);
         if(err){
-          console.log('连接失败',err)
           res.render('error',{
-            message:'连接失败',
+            message:'插入失败',
             error:err
           })
-          return;
+        }else{
+          res.redirect('/phone');
         }
-
-        var db = client.db('register');
-
-        db.collection('brand').insertOne({
-          Logo:Logo,
-          name:name
-        },function(err,data){
-          console.log(data);
-          if(err){
-            res.render('error',{
-              message:'插入失败',
-              error:err
-            })
-          }else{
-            res.redirect('/brand');
-          }
-          client.close();
-        })
+        client.close();
       })
     })
-
+  })
 module.exports = router;

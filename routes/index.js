@@ -16,13 +16,7 @@ router.get('/register.html', function(req, res) {
   res.render('register');
 });
 
-router.get('/brand.html', function(req, res) {
-  res.render('brand' );
-});
 
-router.get('/phone.html', function(req, res) {
-  res.render('phone');
-});
 
 
 

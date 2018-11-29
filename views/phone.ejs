@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/common.css">
-  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/brand.css">
+
 </head>
 
 <body>
@@ -23,6 +24,26 @@
         <form class="form-inline search-bar">
           <input type="text" class="form-control">
           <button class="btn btn-primary">搜索</button>
+          <button class="add">新增手机</button>
+        </form>
+        <form class="addbrand" method="POST">
+          <div class="addbox">
+            <input type="text" placeholder="请输入手机名称" name="phonename">
+            <select id="search" name="opstion">
+              <option value="苹果">苹果</option>
+              <option value="小米">小米</option>
+              <option value="三星">三星</option>
+              <option value="华为">华为</option>
+              <option value="魅族">魅族</option>
+              <option value="oppo">oppo</option>
+              <option value="vivo">vivo</option>
+            </select>
+            <input type="text" placeholder="请输出官方指导价" name="money">
+            <input type="text" placeholder="二手回收价" name="twomoney">
+            <input type="file" name="file">
+            <button class="ok" type="submit">确认</button>
+            <button class="over">取消</button>
+          </div>
         </form>
         <p class="detalist">
           <a href="#">详情列表</a>
@@ -30,60 +51,59 @@
         <table class="table table-bordered  table-striped">
           <thead>
             <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
+              <th>序号</th>
+              <th>图片</th>
+              <th>手机名称</th>
+              <th>官方指导价</th>
+              <th>二手回收价</th>
             </tr>
           </thead>
           <tbody>
+            <% for(var i = 0; i < list.length; i++ ){%>
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+              <th scope="row">
+                <%= i+1 %>
+              </th>
+              <td>
+                <%= list[i].Logo %>
+              </td>
+              <td>
+                <%= list[i].phonename %>
+              </td>
+              <td>
+                <%= list[i].money %>
+              </td>
+              <td>
+                <%= list[i].twomoney %>
+              </td>
+              <td>
+                <% {%>
+                <a href="/brand/delete?id=<%= list[i]._id %>">删除</a>
+                <%}%>
+              </td>
+
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
+            <%}%>
           </tbody>
         </table>
         <nav>
           <ul class="pagination">
             <li class="disabled">
-              <a href="#" aria-label="Previous">
-                <span aria-hidden="true">«</span>
+              <a href="/phone?page=<%= currentPage - 1 < 1 ? 1: currentPage - 1 %>&pageSize=<%= pageSize %>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            <li class="active">
-              <a href="#">1
-                <span class="sr-only">(current)</span>
+            <% for (var i = 0; i < totalPage; i++) {%>
+            <li class="<%= currentPage === (i+1) ? 'active': '' %>">
+              <a href="/phone?page=<%= i+1 %>&pageSize=<%= pageSize %>">
+                <%= i + 1%>
               </a>
             </li>
+            <%}%>
             <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">3</a>
-            </li>
-            <li>
-              <a href="#">4</a>
-            </li>
-            <li>
-              <a href="#">5</a>
-            </li>
-            <li>
-              <a href="#" aria-label="Next">
-                <span aria-hidden="true">»</span>
+              <a href="/phone?page=<%= currentPage + 1 > totalPage ? totalPage: currentPage + 1 %>&pageSize=<%= pageSize %>"
+                aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
           </ul>
@@ -96,3 +116,10 @@
 </body>
 
 </html>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.add').click(function() {
+            $('.addbrand').show()
+        })
+    })
