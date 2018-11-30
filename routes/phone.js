@@ -5,7 +5,9 @@ var ObjectId = require('mongodb').ObjectId;
 var async = require('async');
 var multer = require('multer');
 var router = express.Router();
-
+var upload = multer({ dest: 'E:/tmp' });
+var fs = require('fs');
+var path = require('path');
 var url = 'mongodb://127.0.0.1:27017';
 
 // <!-- 分页操作 -->
@@ -207,5 +209,43 @@ router.post('/phone', function(req, res) {
       client.close();
     })
   })
+})
+
+
+
+
+
+
+
+// 新增手机
+router.post('/addPhone', upload.single('file'), function(req, res) {
+  console.log('进来了--------------------------------------------')
+  var filename = 'phoneImg/' + new Date().getTime() + '_' + req.file.originalname;
+  var newFileName = path.resolve(__dirname, '../public', filename);
+  try {
+    var data = fs.readFileSync(req.file.path);
+    fs.writeFileSync(newFileName);
+    MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
+      if (err) {
+        res.render('error', {
+          message: '连接失败',
+          error: err
+        })
+        return;
+      }
+      var db = client.db('register');
+      db.collection('phone').insertOne({
+        phonename:req.body.phonename,
+        fileName:newFileName
+      },function(err){
+       res.send('新增手机成功')
+      })
+    })
+  } catch (error) {
+    res.render('error', {
+      message: '新增手机失败',
+      error: err
+    })
+  }
 })
 module.exports = router;

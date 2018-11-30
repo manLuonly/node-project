@@ -21,13 +21,21 @@
       <%- include('./common/menu')%>
       <!-- 连接公共内容 -->
       <div class="body">
-        <form class="form-inline search-bar" method="POST">
+        <form action="/phone" class="form-inline search-bar" method="POST">
           <input type="text" class="form-control" name="searchInput">
           <button class="btn btn-primary">搜索</button>
           <button class="add">新增手机</button>
         </form>
-        <form class="addbrand" method="POST">
+        <form action="/phone/addPhone" class="addbrand" method="POST">
           <div class="addbox">
+            <ul>
+              <% for(var i = 0; i < list.length; i++ ){%>
+                <li>
+                  <img src="/<%= list[i].filename%>" alt="">
+                  <span><%= list[i].phonename %></span>
+                </li>
+                <% }%>
+              </ul>
             <input type="text" placeholder="请输入手机名称" name="phonename">
             <select id="search" name="opstion">
               <option value="苹果">苹果</option>
