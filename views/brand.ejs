@@ -20,20 +20,20 @@
             <%- include('./common/menu')%>
             <!-- 连接公共内容 -->
             <div class="body">
-                <form class="form-inline search-bar">
-                    <input type="text" class="form-control">
+                <form class="form-inline search-bar" method="POST">
+                    <input type="text" class="form-control" name="searchInput">
                     <button class="btn btn-primary">搜索</button>
                     <button class="add">新增品牌</button>
                 </form>
                 <form class="addbrand" method="POST">
                     <div class="addbox">
-                      <input type="text" name="Logo">
-                      <input type="text" placeholder="请输入品牌名称" name="phonename">
-                      <input type="file" name="file">
-                      <button class="ok" type="submit">确认</button>
-                      <button class="over">取消</button>
+                        <input type="text" name="Logo">
+                        <input type="text" placeholder="请输入品牌名称" name="phonename">
+                        <input type="file" name="file">
+                        <button class="ok" type="submit">确认</button>
+                        <button class="over">取消</button>
                     </div>
-                  </form>
+                </form>
                 <p class="detalist">
                     <a href="#">详情列表</a>
                 </p>

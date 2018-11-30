@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var ignoreRouter = require('./config/ignoreRouter');
 
-<!-- 引入模块 -->
+// <!-- 引入模块 -->
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var brandRouter = require('./routes/brand');
@@ -23,22 +23,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-<!-- 中间件,用来判断用户是否登录 -->
-app.use(function(req,res,next){
-  if(ignoreRouter.indexOf(req.url) > -1 ){
+// <!-- 中间件,用来判断用户是否登录 -->
+app.use(function(req, res, next) {
+  if (ignoreRouter.indexOf(req.url) > -1) {
     next();
     return;
   }
 
   var nickname = req.cookies.nickname;
-  if(nickname){
+  if (nickname) {
     next();
-  }else{
+  } else {
     res.redirect('/login.html');
   }
 })
 
-<!-- 设置路由 -->
+// <!-- 设置路由 -->
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/brand', brandRouter);

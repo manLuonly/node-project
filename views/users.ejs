@@ -19,9 +19,9 @@
                 <%- include('./common/menu')%>
                     <!-- 连接公共内容 -->
                     <div class="body">
-                        <form class="form-inline search-bar">
-                            <input type="text" class="form-control">
-                            <button class="btn btn-primary">搜索</button>
+                        <form action="/users" class="form-inline search-bar" method="POST">
+                            <input type="text" class="form-control" name="searchInput">
+                            <button class="btn btn-primary" >搜索</button>
                         </form>
                         <p class="detalist">
                             <a href="#">详情列表</a>

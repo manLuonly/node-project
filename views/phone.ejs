@@ -21,8 +21,8 @@
       <%- include('./common/menu')%>
       <!-- 连接公共内容 -->
       <div class="body">
-        <form class="form-inline search-bar">
-          <input type="text" class="form-control">
+        <form class="form-inline search-bar" method="POST">
+          <input type="text" class="form-control" name="searchInput">
           <button class="btn btn-primary">搜索</button>
           <button class="add">新增手机</button>
         </form>
@@ -78,7 +78,7 @@
               </td>
               <td>
                 <% {%>
-                <a href="/brand/delete?id=<%= list[i]._id %>">删除</a>
+                <a href="/phone/delete?id=<%= list[i]._id %>">删除</a>
                 <%}%>
               </td>
 
@@ -118,8 +118,8 @@
 </html>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('.add').click(function() {
-            $('.addbrand').show()
-        })
+  $(document).ready(function() {
+    $('.add').click(function() {
+      $('.addbrand').show()
     })
+  })
