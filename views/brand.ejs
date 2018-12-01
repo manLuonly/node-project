@@ -53,7 +53,7 @@
                                 <%= i+1 %>
                             </th>
                             <td>
-                                <%= list[i].Logo %>
+                                <img src="/<%=list[i].fileName%>" alt="">
                             </td>
                             <td>
                                 <%= list[i].name %>
@@ -101,8 +101,8 @@
 </html>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('.add').click(function() {
+    $(document).ready(function(){
+        $('.add').click(function(){
             $('.addbrand').show()
         })
     })

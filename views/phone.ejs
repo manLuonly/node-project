@@ -10,7 +10,12 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/brand.css">
-
+  <style>
+    .center{
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
 </head>
 
 <body>
@@ -26,16 +31,8 @@
           <button class="btn btn-primary">搜索</button>
           <button class="add">新增手机</button>
         </form>
-        <form action="/phone/addPhone" class="addbrand" method="POST">
+        <form action="/phone/addPhone" class="addbrand" method="POST" enctype="multipart/form-data">
           <div class="addbox">
-            <ul>
-              <% for(var i = 0; i < list.length; i++ ){%>
-                <li>
-                  <img src="/<%= list[i].filename%>" alt="">
-                  <span><%= list[i].phonename %></span>
-                </li>
-                <% }%>
-              </ul>
             <input type="text" placeholder="请输入手机名称" name="phonename">
             <select id="search" name="opstion">
               <option value="苹果">苹果</option>
@@ -45,6 +42,7 @@
               <option value="魅族">魅族</option>
               <option value="oppo">oppo</option>
               <option value="vivo">vivo</option>
+              <option value="诺基亚">诺基亚</option>
             </select>
             <input type="text" placeholder="请输出官方指导价" name="money">
             <input type="text" placeholder="二手回收价" name="twomoney">
@@ -73,7 +71,7 @@
                 <%= i+1 %>
               </th>
               <td>
-                <%= list[i].Logo %>
+                <img src="/<%=list[i].fileName%>" alt="" class="center">
               </td>
               <td>
                 <%= list[i].phonename %>
@@ -126,8 +124,9 @@
 </html>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script>
-  $(document).ready(function() {
-    $('.add').click(function() {
+  $(document).ready(function(){
+    $('.add').click(function(){
       $('.addbrand').show()
     })
   })
+</script>

@@ -211,10 +211,34 @@ router.post('/phone', function(req, res) {
   })
 })
 
-
-
-
-
+// 手机管理页面
+router.get('/', function(req, res) {
+  MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
+    if (err) {
+      res.render('error', {
+        message: '连接失败',
+        error: err
+      })
+      return;
+    }
+    var db = client.db('register');
+    db.collection('phone').find().toArray(function(err, data) {
+      if (err) {
+        res.render('error', {
+          message: '失败',
+          error: err
+        })
+        return;
+      }
+      console.log(data)
+      res.render('phone', {
+        list: data
+      })
+      client.close();
+    })
+  })
+  res.render('phone')
+})
 
 
 // 新增手机
@@ -224,7 +248,8 @@ router.post('/addPhone', upload.single('file'), function(req, res) {
   var newFileName = path.resolve(__dirname, '../public', filename);
   try {
     var data = fs.readFileSync(req.file.path);
-    fs.writeFileSync(newFileName);
+    fs.writeFileSync(newFileName, data);
+    console.log(req.body)
     MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
       if (err) {
         res.render('error', {
@@ -235,10 +260,14 @@ router.post('/addPhone', upload.single('file'), function(req, res) {
       }
       var db = client.db('register');
       db.collection('phone').insertOne({
-        phonename:req.body.phonename,
-        fileName:newFileName
-      },function(err){
-       res.send('新增手机成功')
+        phonename: req.body.phonename,
+        fileName: filename,
+        money: req.body.money,
+        twomoney: req.body.twomoney,
+        opstion: req.body.opstion
+      }, function(err) {
+        // res.send('新增手机成功')
+        res.redirect('/phone');
       })
     })
   } catch (error) {

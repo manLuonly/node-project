@@ -5,6 +5,9 @@ var ObjectId = require('mongodb').ObjectId;
 var async = require('async');
 var multer = require('multer');
 var router = express.Router();
+var upload = multer({ dest: 'E:/tmp' });
+var fs = require('fs');
+var path = require('path');
 
 var url = 'mongodb://127.0.0.1:27017';
 // <!-- 设置文件的零时目录 -->
@@ -208,6 +211,74 @@ router.post('/', function(req, res) {
   })
 })
 
+
+
+// 手机管理页面
+router.get('/', function(req, res) {
+  MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
+    if (err) {
+      res.render('error', {
+        message: '连接失败',
+        error: err
+      })
+      return;
+    }
+    var db = client.db('register');
+    db.collection('phone').find().toArray(function(err, data) {
+      if (err) {
+        res.render('error', {
+          message: '失败',
+          error: err
+        })
+        return;
+      }
+      console.log(data)
+      res.render('phone', {
+        list: data
+      })
+      client.close();
+    })
+  })
+  res.render('phone')
+})
+
+
+// 新增手机
+router.post('/addPhone', upload.single('file'), function(req, res) {
+  console.log('进来了--------------------------------------------')
+  var filename = 'phoneImg/' + new Date().getTime() + '_' + req.file.originalname;
+  var newFileName = path.resolve(__dirname, '../public', filename);
+  try {
+    var data = fs.readFileSync(req.file.path);
+    fs.writeFileSync(newFileName, data);
+    console.log(req.body)
+    MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
+      if (err) {
+        res.render('error', {
+          message: '连接失败',
+          error: err
+        })
+        return;
+      }
+      var db = client.db('register');
+      db.collection('phone').insertOne({
+        phonename: req.body.phonename,
+        fileName: filename,
+        money: req.body.money,
+        twomoney: req.body.twomoney,
+        opstion: req.body.opstion
+      }, function(err) {
+        // res.send('新增手机成功')
+        res.redirect('/phone');
+      })
+    })
+  } catch (error) {
+    res.render('error', {
+      message: '新增手机失败',
+      error: err
+    })
+  }
+})
 
 
 module.exports = router;
